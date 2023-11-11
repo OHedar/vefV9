@@ -1,6 +1,20 @@
 import { getLaunch, searchLaunches } from './api.js';
 import { el, empty } from './elements.js';
 
+function goBack() {
+  window.history.back();
+}
+
+function attachBackButtonListener() {
+  const backButton = document.querySelector('.back a');
+  if (backButton) {
+    backButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      goBack();
+    });
+  }
+}
+
 /**
  * Býr til leitarform.
  * @param {(e: SubmitEvent) => void} searchHandler Fall sem keyrt er þegar leitað er.
@@ -10,7 +24,7 @@ import { el, empty } from './elements.js';
 export function renderSearchForm(searchHandler, query = undefined) {
   const form = el(
     'form',
-    {},
+    {class: 'leita'},
     el('input', { value: query ?? '', name: 'query' }),
     el('button', {}, 'Leita')
   );
@@ -99,7 +113,7 @@ function createSearchResults(results, query) {
         el('h3', { class: 'result_name' },
           el('a', { href: `/?id=${result.id}` }, result.name),
           ),
-        el('p', { class: 'result_status' }, `Status: ${result.status}`),
+        el('p', { class: 'result_status' }, `🚀 ${result.status}`),
         el('p', { class: 'result_mission' }, `Mission: ${result.mission}`),
       ),
     );
@@ -145,7 +159,7 @@ export async function searchAndRender(parentElement, searchForm, query) {
   const resultsEl = createSearchResults(results, query);
 
   const backElement = el('div',{ class: 'back' },
-    el('a', { href: '/' }, 'Back'),
+    el('a', { href: '/' }, 'Til baka'),
   );
 
   mainElement.appendChild(resultsEl);
@@ -164,6 +178,7 @@ export function renderFrontpage(
   searchHandler,
   query = undefined
 ) {
+  empty(parentElement);
   const heading = el('h1', { class: 'heading', 'data-foo': 'bar' }, 'Geimskotaleitin 🚀'
   );
   const searchForm = renderSearchForm(searchHandler, query);
@@ -196,13 +211,14 @@ setNotLoading(parentElement);
     'div',
     { class: 'back' },
     el('a', { href: '/' }, 'Til baka'),
-  );
+  ); 
 
   // Tómt og villu state, við gerum ekki greinarmun á þessu tvennu, ef við
   // myndum vilja gera það þyrftum við að skilgreina stöðu fyrir niðurstöðu
   if (!result) {
     parentElement.appendChild(el('p', {class: 'error'}, `Úps, einhvað fór úrskeiðis. Ekkert skot fannst með þessu id: ${id}`));
     parentElement.appendChild(backElement);
+    attachBackButtonListener();
     return;
   }
 
@@ -229,13 +245,13 @@ setNotLoading(parentElement);
   container.appendChild(windowList)
 
   const opnast = result.window_start
-    ? el('li', { class: 'gluggO' },'Gluggi opnast:   ', result.window_start)
-    : el('li', { class: 'gluggO' }, 'Not found.');
+    ? el('p', { class: 'gluggO' },'Gluggi opnast:   ', result.window_start)
+    : el('p', { class: 'gluggO' }, 'Not found.');
   windowList.appendChild(opnast);
 
   const lokast = result.window_end
-    ? el('li', { class: 'gluggL' },'Gluggi Lokast:   ', result.window_end)
-    : el('li', { class: 'gluggL' }, 'Not found.');
+    ? el('p', { class: 'gluggL' },'Gluggi Lokast:   ', result.window_end)
+    : el('p', { class: 'gluggL' }, 'Not found.');
   windowList.appendChild(lokast);
 
   // Staða
@@ -275,5 +291,6 @@ setNotLoading(parentElement);
 
   // Back
   container.appendChild(backElement);
+
  
 }

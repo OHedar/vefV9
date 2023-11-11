@@ -1,6 +1,5 @@
-import { el, empty } from './lib/elements.js';
+import { empty } from './lib/elements.js';
 import { renderDetails, renderFrontpage, searchAndRender } from './lib/ui.js';
-import { getLaunch, searchLaunches } from './api.js';
 
 /**
  * Fall sem keyrir við leit.
@@ -19,6 +18,7 @@ async function onSearch(e) {
   if (!value) {
     return;
   }
+
 
   await searchAndRender(document.body, e.target, value);
   window.history.pushState({}, '', `/?query=${value}`);
@@ -44,11 +44,13 @@ function route() {
   } else {
     renderFrontpage(parentElement, onSearch, query);
   }
+
 }
 
 // Bregst við því þegar við notum vafra til að fara til baka eða áfram.
 window.onpopstate = () => {
-  /* TODO bregðast við */
+  empty(document.body);
+  route();
 };
 
 // Athugum í byrjun hvað eigi að birta.

@@ -44,13 +44,21 @@ button {
   padding-inline: calc(var(--spacing) / 2);
 }
 
+form.leita{
+  text-align: center;
+}
+
 h1 {
   font-size: 2rem;
   margin-block-end: var(--spacing);
+  text-align: center; 
 }
+
+
 
 h2 {
   font-size: 1.5rem;
+  text-align: center; 
 }
 
 main {
@@ -63,4 +71,26 @@ main {
   max-width: var(--max-width);
 }
 
-/* TODO nánari stílar */
+ul li:nth-child(2n+1){
+  background-color: #91c1f1;
+}
+
+li.results_result{
+  list-style-type: none;
+}
+
+
+@media (max-width: 600px) {
+  main {
+    margin: 10px;
+    padding: 10px;
+  }
+
+  form {
+    flex-direction: column;
+  }
+
+  button {
+    width: 100%;
+  }
+}
