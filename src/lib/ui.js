@@ -286,7 +286,7 @@ setNotLoading(parentElement);
  // Mynd
  const image = result.image
     ? el('img', { src: result.image})
-    : el('p',{class: 'noImg'},'Staða: Not found')
+    : el('p',{class: 'noImg'},'Eingin mynd fannst')
   container.appendChild(image);
 
   // Back

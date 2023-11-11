@@ -11,7 +11,7 @@
  */
 
 /** Grunnslóð á API (DEV útgáfa) */
-const API_URL = 'https://lldev.thespacedevs.com/2.2.0/';
+const API_URL = 'https://ll.thespacedevs.com/2.2.0/';
 const API_MAX_RESULTS = 50;
 
 /**
